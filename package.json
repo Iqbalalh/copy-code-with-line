@@ -2,8 +2,12 @@
   "name": "copy-code-with-line",
   "displayName": "copy-code-with-line",
   "publisher": "Iqbalalhr",
+  "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Iqbalalh/copy-code-with-line.git"
+  },
   "description": "",
-  "version": "0.0.1",
   "engines": {
     "vscode": "^1.97.0"
   },
