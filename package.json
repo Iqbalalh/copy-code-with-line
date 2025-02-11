@@ -2,7 +2,7 @@
   "name": "copy-code-with-line",
   "displayName": "Copy Code With Line",
   "publisher": "Iqbalalhr",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "repository": {
     "type": "git",
     "url": "https://github.com/Iqbalalh/copy-code-with-line.git"
@@ -19,12 +19,28 @@
   "contributes": {
     "commands": [
       {
-        "command": "extension.copyWithActualNumbersPlain",
-        "title": "Copy with Actual Line Numbers"
+        "command": "extension.copyWithActualNumberIndent1",
+        "title": "Copy with Actual Line Numbers (Indent 1 Space)"
       },
       {
-        "command": "extension.copyWithStartingOnePlain",
-        "title": "Copy with Restart Line Numbers"
+        "command": "extension.copyWithActualNumberIndent2",
+        "title": "Copy with Actual Line Numbers (Indent 2 Spaces)"
+      },
+      {
+        "command": "extension.copyWithActualNumberIndent4",
+        "title": "Copy with Actual Line Numbers (Indent 4 Spaces)"
+      },
+      {
+        "command": "extension.copyWithStartingOneIndent1",
+        "title": "Copy with Restart Line Numbers (Indent 1 Space)"
+      },
+      {
+        "command": "extension.copyWithStartingOneIndent2",
+        "title": "Copy with Restart Line Numbers (Indent 2 Spaces)"
+      },
+      {
+        "command": "extension.copyWithStartingOneIndent4",
+        "title": "Copy with Restart Line Numbers (Indent 4 Spaces)"
       }
     ]
   },

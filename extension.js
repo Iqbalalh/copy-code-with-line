@@ -1,6 +1,6 @@
 const vscode = require("vscode");
 
-function copyCodeWithLineNumbers(startFromOne = false, isRichText = false) {
+function copyCodeWithLineNumbers(startFromOne = false, isRichText = false, indentSize = null) {
   const editor = vscode.window.activeTextEditor;
   if (!editor) {
     vscode.window.showErrorMessage("No active editor.");
@@ -17,11 +17,29 @@ function copyCodeWithLineNumbers(startFromOne = false, isRichText = false) {
   const startLine = selection.start.line;
   const endLine = selection.end.line;
 
+  // Get base indentation from the first selected line
+  const firstLineText = document.lineAt(startLine).text;
+  const baseIndentMatch = firstLineText.match(/^(\s*)/);
+  const baseIndent = baseIndentMatch ? baseIndentMatch[1].length : 0;
+
   let copiedText = "";
   let htmlText = `<pre style="font-family: monospace;">`;
 
   for (let i = startLine; i <= endLine; i++) {
-    const lineText = document.lineAt(i).text;
+    let lineText = document.lineAt(i).text;
+
+    // Remove base indentation from each line
+    if (lineText.startsWith(" ".repeat(baseIndent))) {
+      lineText = lineText.slice(baseIndent);
+    }
+
+    // Normalize indentation if specified
+    if (indentSize !== null) {
+      lineText = lineText.replace(/^\s+/, (match) =>
+        " ".repeat((match.length / baseIndent) * indentSize)
+      );
+    }
+
     const lineNumber = startFromOne ? i - startLine + 1 : i + 1;
     copiedText += `${lineNumber}. ${lineText}\n`;
     htmlText += `<span>${lineNumber}. ${lineText}</span><br>`;
@@ -42,7 +60,7 @@ function openWebviewWithHTML(htmlContent) {
     "copyRichText",
     "Copy Code",
     vscode.ViewColumn.One,
-    { enableScripts: true } // Enable JS execution
+    { enableScripts: true }
   );
 
   panel.webview.html = `
@@ -79,37 +97,41 @@ function openWebviewWithHTML(htmlContent) {
 }
 
 function activate(context) {
-  context.subscriptions.push(
-    vscode.commands.registerCommand(
-      "extension.copyWithActualNumbersRich",
-      () => {
-        copyCodeWithLineNumbers(false, true);
-      }
-    )
-  );
 
   context.subscriptions.push(
-    vscode.commands.registerCommand("extension.copyWithStartingOneRich", () => {
-      copyCodeWithLineNumbers(true, true);
+    vscode.commands.registerCommand("extension.copyWithActualNumberIndent1", () => {
+      copyCodeWithLineNumbers(false, false, 1);
     })
   );
 
   context.subscriptions.push(
-    vscode.commands.registerCommand(
-      "extension.copyWithActualNumbersPlain",
-      () => {
-        copyCodeWithLineNumbers(false, false);
-      }
-    )
+    vscode.commands.registerCommand("extension.copyWithActualNumberIndent2", () => {
+      copyCodeWithLineNumbers(false, false, 2);
+    })
   );
 
   context.subscriptions.push(
-    vscode.commands.registerCommand(
-      "extension.copyWithStartingOnePlain",
-      () => {
-        copyCodeWithLineNumbers(true, false);
-      }
-    )
+    vscode.commands.registerCommand("extension.copyWithActualNumberIndent4", () => {
+      copyCodeWithLineNumbers(false, false, 4);
+    })
+  );
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand("extension.copyWithStartingOneIndent1", () => {
+      copyCodeWithLineNumbers(true, false, 1);
+    })
+  );
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand("extension.copyWithStartingOneIndent2", () => {
+      copyCodeWithLineNumbers(true, false, 2);
+    })
+  );
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand("extension.copyWithStartingOneIndent4", () => {
+      copyCodeWithLineNumbers(true, false, 4);
+    })
   );
 }
 
