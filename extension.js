@@ -36,7 +36,7 @@ function copyCodeWithLineNumbers(startFromOne = false, isRichText = false, inden
     // Normalize indentation if specified
     if (indentSize !== null) {
       lineText = lineText.replace(/^\s+/, (match) =>
-        " ".repeat((match.length / baseIndent) * indentSize)
+        baseIndent > 0 ? " ".repeat(Math.round((match.length / baseIndent) * indentSize)) : " ".repeat(indentSize)
       );
     }
 
