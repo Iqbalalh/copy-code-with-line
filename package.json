@@ -7,7 +7,7 @@
     "type": "git",
     "url": "https://github.com/Iqbalalh/copy-code-with-line.git"
   },
-  "description": "",
+  "description": "Copy Code with Line Numbers",
   "engines": {
     "vscode": "^1.97.0"
   },
@@ -33,6 +33,7 @@
     "pretest": "npm run lint",
     "test": "vscode-test"
   },
+  "icon": "images/COPYCODE.png",
   "devDependencies": {
     "@types/mocha": "^10.0.10",
     "@types/node": "20.x",
